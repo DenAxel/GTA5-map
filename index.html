@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GTA 5 Interactieve Kaart</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 90vh; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map', {
+            crs: L.CRS.Simple,
+            minZoom: -2,
+            maxZoom: 1
+        });
+
+        var bounds = [[0, 0], [5000, 5000]];
+        var image = L.imageOverlay('gta5-map.jpg', bounds).addTo(map);
+
+        map.fitBounds(bounds);
+
+        // Voeg een voorbeeldmarker toe
+        L.marker([2500, 2500]).addTo(map)
+         .bindPopup('Hier is een locatie!');
+    </script>
+</body>
+</html>
