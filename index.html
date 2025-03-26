@@ -23,9 +23,26 @@
 
         map.fitBounds(bounds);
 
-        // Voeg een voorbeeldmarker toe
-        L.marker([2500, 2500]).addTo(map)
-         .bindPopup('Hier is een locatie!');
+        // Laad opgeslagen markers uit localStorage
+        var savedMarkers = JSON.parse(localStorage.getItem('markers')) || [];
+        savedMarkers.forEach(function(markerData) {
+            L.marker(markerData.coords).addTo(map)
+             .bindPopup(markerData.popupText);
+        });
+
+        // Voeg een marker toe bij klikken op de kaart
+        map.on('click', function(e) {
+            var coords = [e.latlng.lat, e.latlng.lng];
+            var popupText = prompt('Voer een beschrijving in voor deze marker:');
+            if (popupText) {
+                var marker = L.marker(coords).addTo(map)
+                    .bindPopup(popupText);
+
+                // Sla de marker op in localStorage
+                savedMarkers.push({ coords: coords, popupText: popupText });
+                localStorage.setItem('markers', JSON.stringify(savedMarkers));
+            }
+        });
     </script>
 </body>
 </html>
